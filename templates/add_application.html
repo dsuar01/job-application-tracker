@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Add Application{% endblock %}
+
+{% block content %}
+    <h2>Add Application</h2>
+
+    <form method="POST" action="{{ url_for('add_application') }}">
+        <p>
+            <label for="job_id">Job:</label><br>
+            <select id="job_id" name="job_id" required>
+                <option value="">Select a job</option>
+                {% for job in jobs %}
+                    <option value="{{ job.job_id }}">
+                        {{ job.job_title }} - {{ job.company_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="application_date">Application Date:</label><br>
+            <input type="date" id="application_date" name="application_date" required>
+        </p>
+
+        <p>
+            <label for="status">Status:</label><br>
+            <select id="status" name="status">
+                <option value="Applied">Applied</option>
+                <option value="Screening">Screening</option>
+                <option value="Interview">Interview</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Withdrawn">Withdrawn</option>
+                <option value="Phone Screen">Phone Screen</option>
+                <option value="Interview Completed">Interview Completed</option>
+                <option value="Offer Accepted">Offer Accepted</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="resume_version">Resume Version:</label><br>
+            <input type="text" id="resume_version" name="resume_version">
+        </p>
+
+        <p>
+            <label>
+                <input type="checkbox" name="cover_letter_sent">
+                Cover Letter Sent
+            </label>
+        </p>
+
+        <button type="submit">Add Application</button>
+    </form>
+{% endblock %}

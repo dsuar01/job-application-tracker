@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Add Company{% endblock %}
+
+{% block content %}
+    <h2>Add Company</h2>
+
+    <form method="POST" action="{{ url_for('add_company') }}">
+        <p>
+            <label for="company_name">Company Name:</label><br>
+            <input type="text" id="company_name" name="company_name" required>
+        </p>
+
+        <p>
+            <label for="industry">Industry:</label><br>
+            <input type="text" id="industry" name="industry">
+        </p>
+
+        <p>
+            <label for="website">Website:</label><br>
+            <input type="text" id="website" name="website">
+        </p>
+
+        <p>
+            <label for="city">City:</label><br>
+            <input type="text" id="city" name="city">
+        </p>
+
+        <p>
+            <label for="state">State:</label><br>
+            <input type="text" id="state" name="state">
+        </p>
+
+        <p>
+            <label for="notes">Notes:</label><br>
+            <textarea id="notes" name="notes" rows="4"></textarea>
+        </p>
+
+        <button type="submit">Add Company</button>
+    </form>
+{% endblock %}

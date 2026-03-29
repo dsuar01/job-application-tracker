@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Add Contact{% endblock %}
+
+{% block content %}
+    <h2>Add Contact</h2>
+
+    <form method="POST" action="{{ url_for('add_contact') }}">
+        <p>
+            <label for="company_id">Company:</label><br>
+            <select id="company_id" name="company_id" required>
+                <option value="">Select a company</option>
+                {% for company in companies %}
+                    <option value="{{ company.company_id }}">{{ company.company_name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="first_name">First Name:</label><br>
+            <input type="text" id="first_name" name="first_name" required>
+        </p>
+
+        <p>
+            <label for="last_name">Last Name:</label><br>
+            <input type="text" id="last_name" name="last_name" required>
+        </p>
+
+        <p>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email">
+        </p>
+
+        <p>
+            <label for="phone">Phone:</label><br>
+            <input type="text" id="phone" name="phone">
+        </p>
+
+        <p>
+            <label for="job_title">Job Title:</label><br>
+            <input type="text" id="job_title" name="job_title">
+        </p>
+
+        <p>
+            <label for="linkedin_url">LinkedIn URL:</label><br>
+            <input type="text" id="linkedin_url" name="linkedin_url">
+        </p>
+
+        <p>
+            <label for="notes">Notes:</label><br>
+            <textarea id="notes" name="notes" rows="4"></textarea>
+        </p>
+
+        <button type="submit">Add Contact</button>
+    </form>
+{% endblock %}

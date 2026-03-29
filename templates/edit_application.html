@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Application{% endblock %}
+
+{% block content %}
+    <h2>Edit Application</h2>
+
+    <form method="POST" action="{{ url_for('edit_application', application_id=application.application_id) }}">
+        <p>
+            <label for="job_id">Job:</label><br>
+            <select id="job_id" name="job_id" required>
+                {% for job in jobs %}
+                    <option value="{{ job.job_id }}"
+                        {% if job.job_id == application.job_id %}selected{% endif %}>
+                        {{ job.job_title }} - {{ job.company_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="application_date">Application Date:</label><br>
+            <input type="date" id="application_date" name="application_date" value="{{ application.application_date }}" required>
+        </p>
+
+        <p>
+            <label for="status">Status:</label><br>
+            <select id="status" name="status">
+                <option value="Applied" {% if application.status == "Applied" %}selected{% endif %}>Applied</option>
+                <option value="Screening" {% if application.status == "Screening" %}selected{% endif %}>Screening</option>
+                <option value="Interview" {% if application.status == "Interview" %}selected{% endif %}>Interview</option>
+                <option value="Offer" {% if application.status == "Offer" %}selected{% endif %}>Offer</option>
+                <option value="Rejected" {% if application.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                <option value="Withdrawn" {% if application.status == "Withdrawn" %}selected{% endif %}>Withdrawn</option>
+                <option value="Phone Screen" {% if application.status == "Phone Screen" %}selected{% endif %}>Phone Screen</option>
+                <option value="Interview Completed" {% if application.status == "Interview Completed" %}selected{% endif %}>Interview Completed</option>
+                <option value="Offer Accepted" {% if application.status == "Offer Accepted" %}selected{% endif %}>Offer Accepted</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="resume_version">Resume Version:</label><br>
+            <input type="text" id="resume_version" name="resume_version" value="{{ application.resume_version }}">
+        </p>
+
+        <p>
+            <label>
+                <input type="checkbox" name="cover_letter_sent"
+                    {% if application.cover_letter_sent %}checked{% endif %}>
+                Cover Letter Sent
+            </label>
+        </p>
+
+        <button type="submit">Update Application</button>
+    </form>
+{% endblock %}

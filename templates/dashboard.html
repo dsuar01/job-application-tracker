@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Job Application Tracker Dashboard</h1>
+    <p>Companies: {{ stats.companies }}</p>
+    <p>Jobs: {{ stats.jobs }}</p>
+    <p>Applications: {{ stats.applications }}</p>
+    <p>Contacts: {{ stats.contacts }}</p>
+{% endblock %}

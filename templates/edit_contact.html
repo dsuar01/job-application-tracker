@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Contact{% endblock %}
+
+{% block content %}
+    <h2>Edit Contact</h2>
+
+    <form method="POST" action="{{ url_for('edit_contact', contact_id=contact.contact_id) }}">
+        <p>
+            <label for="company_id">Company:</label><br>
+            <select id="company_id" name="company_id" required>
+                {% for company in companies %}
+                    <option value="{{ company.company_id }}"
+                        {% if company.company_id == contact.company_id %}selected{% endif %}>
+                        {{ company.company_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="first_name">First Name:</label><br>
+            <input type="text" id="first_name" name="first_name" value="{{ contact.first_name }}" required>
+        </p>
+
+        <p>
+            <label for="last_name">Last Name:</label><br>
+            <input type="text" id="last_name" name="last_name" value="{{ contact.last_name }}" required>
+        </p>
+
+        <p>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" value="{{ contact.email }}">
+        </p>
+
+        <p>
+            <label for="phone">Phone:</label><br>
+            <input type="text" id="phone" name="phone" value="{{ contact.phone }}">
+        </p>
+
+        <p>
+            <label for="job_title">Job Title:</label><br>
+            <input type="text" id="job_title" name="job_title" value="{{ contact.job_title }}">
+        </p>
+
+        <p>
+            <label for="linkedin_url">LinkedIn URL:</label><br>
+            <input type="text" id="linkedin_url" name="linkedin_url" value="{{ contact.linkedin_url }}">
+        </p>
+
+        <p>
+            <label for="notes">Notes:</label><br>
+            <textarea id="notes" name="notes" rows="4">{{ contact.notes }}</textarea>
+        </p>
+
+        <button type="submit">Update Contact</button>
+    </form>
+{% endblock %}

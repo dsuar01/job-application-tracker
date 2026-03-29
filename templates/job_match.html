@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Job Match{% endblock %}
+
+{% block content %}
+    <h2>Job Match</h2>
+
+    <p>Enter your skills separated by commas. Example: Python, SQL, Git</p>
+
+    <form method="POST" action="{{ url_for('job_match') }}">
+        <p>
+            <label for="skills">Your Skills:</label><br>
+            <textarea id="skills" name="skills" rows="4" cols="60" placeholder="Python, SQL, Git, Docker">{{ entered_skills }}</textarea>
+        </p>
+
+        <button type="submit">Find Matching Jobs</button>
+    </form>
+
+    {% if results %}
+        <h3>Match Results</h3>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>Match %</th>
+                    <th>Matched Required Skills</th>
+                    <th>Matched Preferred Skills</th>
+                    <th>Missing Required Skills</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result.job_title }}</td>
+                        <td>{{ result.company_name }}</td>
+                        <td><strong>{{ result.match_percentage }}%</strong></td>
+                        <td>
+                            {% if result.matched_required %}
+                                {{ result.matched_required | join(", ") }}
+                            {% else %}
+                                None
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if result.matched_preferred %}
+                                {{ result.matched_preferred | join(", ") }}
+                            {% else %}
+                                None
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if result.missing_required %}
+                                {{ result.missing_required | join(", ") }}
+                            {% else %}
+                                None
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Add Job{% endblock %}
+
+{% block content %}
+    <h2>Add Job</h2>
+
+    <form method="POST" action="{{ url_for('add_job') }}">
+        <p>
+            <label for="company_id">Company:</label><br>
+            <select id="company_id" name="company_id" required>
+                <option value="">Select a company</option>
+                {% for company in companies %}
+                    <option value="{{ company.company_id }}">{{ company.company_name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="job_title">Job Title:</label><br>
+            <input type="text" id="job_title" name="job_title" required>
+        </p>
+
+        <p>
+            <label for="job_type">Job Type:</label><br>
+            <select id="job_type" name="job_type">
+                <option value="">Select job type</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="salary_min">Salary Min:</label><br>
+            <input type="number" id="salary_min" name="salary_min" step="0.01">
+        </p>
+
+        <p>
+            <label for="salary_max">Salary Max:</label><br>
+            <input type="number" id="salary_max" name="salary_max" step="0.01">
+        </p>
+
+        <p>
+            <label for="date_posted">Date Posted:</label><br>
+            <input type="date" id="date_posted" name="date_posted">
+        </p>
+
+        <button type="submit">Add Job</button>
+    </form>
+{% endblock %}

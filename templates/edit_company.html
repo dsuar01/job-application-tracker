@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Company{% endblock %}
+
+{% block content %}
+    <h2>Edit Company</h2>
+
+    <form method="POST" action="{{ url_for('edit_company', company_id=company.company_id) }}">
+        <p>
+            <label for="company_name">Company Name:</label><br>
+            <input type="text" id="company_name" name="company_name" value="{{ company.company_name }}" required>
+        </p>
+
+        <p>
+            <label for="industry">Industry:</label><br>
+            <input type="text" id="industry" name="industry" value="{{ company.industry }}">
+        </p>
+
+        <p>
+            <label for="website">Website:</label><br>
+            <input type="text" id="website" name="website" value="{{ company.website }}">
+        </p>
+
+        <p>
+            <label for="city">City:</label><br>
+            <input type="text" id="city" name="city" value="{{ company.city }}">
+        </p>
+
+        <p>
+            <label for="state">State:</label><br>
+            <input type="text" id="state" name="state" value="{{ company.state }}">
+        </p>
+
+        <p>
+            <label for="notes">Notes:</label><br>
+            <textarea id="notes" name="notes" rows="4">{{ company.notes }}</textarea>
+        </p>
+
+        <button type="submit">Update Company</button>
+    </form>
+{% endblock %}
