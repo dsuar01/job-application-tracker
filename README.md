@@ -1,7 +1,5 @@
 # Job Application Tracker
 
-<<<<<<< HEAD
-
 A full-stack web application that helps users track job applications. This project uses **MySQL** for the database, **Python with Flask** for the backend, and **HTML/CSS** for the frontend.
 
 ## Features
