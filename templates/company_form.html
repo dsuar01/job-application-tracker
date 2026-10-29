@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if editing else 'Add' }} Company{% endblock %}
+{% block content %}
+<div class="page-head"><h2>{{ 'Edit company' if editing else 'Add company' }}</h2></div>
+<form class="card form" method="POST" novalidate>
+    <div class="field">
+        <label for="company_name">Company name</label>
+        <input type="text" id="company_name" name="company_name" value="{{ company.company_name or '' }}" maxlength="100" required autofocus>
+    </div>
+    <div class="field-row">
+        <div class="field"><label for="industry">Industry <span class="opt">(optional)</span></label>
+            <input type="text" id="industry" name="industry" value="{{ company.industry or '' }}" maxlength="50"></div>
+        <div class="field"><label for="website">Website <span class="opt">(optional)</span></label>
+            <input type="text" id="website" name="website" value="{{ company.website or '' }}" maxlength="200" placeholder="example.com"></div>
+    </div>
+    <div class="field-row">
+        <div class="field"><label for="city">City <span class="opt">(optional)</span></label>
+            <input type="text" id="city" name="city" value="{{ company.city or '' }}" maxlength="50"></div>
+        <div class="field"><label for="state">State <span class="opt">(optional)</span></label>
+            <input type="text" id="state" name="state" value="{{ company.state or '' }}" maxlength="50"></div>
+    </div>
+    <div class="field"><label for="notes">Notes <span class="opt">(optional)</span></label>
+        <textarea id="notes" name="notes">{{ company.notes or '' }}</textarea></div>
+    <div class="form-actions">
+        <button type="submit">{{ 'Save changes' if editing else 'Add company' }}</button>
+        <a class="btn secondary" href="{{ url_for('companies') }}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

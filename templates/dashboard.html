@@ -1,11 +1,54 @@
 {% extends "base.html" %}
-
+{% from "_macros.html" import status_badge %}
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Job Application Tracker Dashboard</h1>
-    <p>Companies: {{ stats.companies }}</p>
-    <p>Jobs: {{ stats.jobs }}</p>
-    <p>Applications: {{ stats.applications }}</p>
-    <p>Contacts: {{ stats.contacts }}</p>
+<div class="page-head">
+    <div>
+        <h2>Dashboard</h2>
+        <p>Where your job search stands today.</p>
+    </div>
+    <a class="btn" href="{{ url_for('add_application') }}">+ New application</a>
+</div>
+
+<div class="grid stats">
+    <a class="card stat" href="{{ url_for('applications') }}"><span class="label">Applications</span><span class="value">{{ stats.applications }}</span></a>
+    <a class="card stat" href="{{ url_for('jobs') }}"><span class="label">Jobs</span><span class="value">{{ stats.jobs }}</span></a>
+    <a class="card stat" href="{{ url_for('companies') }}"><span class="label">Companies</span><span class="value">{{ stats.companies }}</span></a>
+    <a class="card stat" href="{{ url_for('contacts') }}"><span class="label">Contacts</span><span class="value">{{ stats.contacts }}</span></a>
+</div>
+
+<div class="grid two">
+    <section class="card">
+        <h3>Applications by status</h3>
+        {% if status_counts %}
+        <ul class="list">
+            {% for row in status_counts %}
+            <li>{{ status_badge(row.status) }}<strong>{{ row.c }}</strong></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="muted">No applications yet.</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h3>Recent applications</h3>
+        {% if recent %}
+        <ul class="list">
+            {% for app in recent %}
+            <li>
+                <div>
+                    <a href="{{ url_for('edit_application', application_id=app.application_id) }}"><strong>{{ app.job_title }}</strong></a>
+                    <div class="sub">{{ app.company_name }} · {{ app.application_date | pretty_date }}</div>
+                </div>
+                {{ status_badge(app.status) }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="muted">Nothing here yet. Add a company, a job, then log your first application.</p>
+        {% endif %}
+    </section>
+</div>
 {% endblock %}

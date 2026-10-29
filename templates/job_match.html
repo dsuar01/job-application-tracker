@@ -1,65 +1,38 @@
 {% extends "base.html" %}
-
 {% block title %}Job Match{% endblock %}
-
 {% block content %}
-    <h2>Job Match</h2>
+<div class="page-head"><div><h2>Job Match</h2><p>See how your skills line up with the open jobs you've saved.</p></div></div>
 
-    <p>Enter your skills separated by commas. Example: Python, SQL, Git</p>
+<form class="card form" method="POST" style="margin-bottom:22px">
+    <div class="field">
+        <label for="skills">Your skills</label>
+        <textarea id="skills" name="skills" placeholder="Python, SQL, Git, Docker">{{ entered_skills }}</textarea>
+        <p class="hint">Separate skills with commas. Required skills count double.</p>
+    </div>
+    <button type="submit">Find matching jobs</button>
+</form>
 
-    <form method="POST" action="{{ url_for('job_match') }}">
-        <p>
-            <label for="skills">Your Skills:</label><br>
-            <textarea id="skills" name="skills" rows="4" cols="60" placeholder="Python, SQL, Git, Docker">{{ entered_skills }}</textarea>
-        </p>
-
-        <button type="submit">Find Matching Jobs</button>
-    </form>
-
-    {% if results %}
-        <h3>Match Results</h3>
-
-        <table border="1" cellpadding="8" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Job Title</th>
-                    <th>Company</th>
-                    <th>Match %</th>
-                    <th>Matched Required Skills</th>
-                    <th>Matched Preferred Skills</th>
-                    <th>Missing Required Skills</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for result in results %}
-                    <tr>
-                        <td>{{ result.job_title }}</td>
-                        <td>{{ result.company_name }}</td>
-                        <td><strong>{{ result.match_percentage }}%</strong></td>
-                        <td>
-                            {% if result.matched_required %}
-                                {{ result.matched_required | join(", ") }}
-                            {% else %}
-                                None
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if result.matched_preferred %}
-                                {{ result.matched_preferred | join(", ") }}
-                            {% else %}
-                                None
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if result.missing_required %}
-                                {{ result.missing_required | join(", ") }}
-                            {% else %}
-                                None
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+{% if results %}
+<div class="card table-wrap">
+    <table>
+        <thead><tr><th>Job</th><th>Match</th><th>Matched required</th><th>Matched preferred</th><th>Missing required</th></tr></thead>
+        <tbody>
+        {% for r in results %}
+            <tr>
+                <td><strong>{{ r.job_title }}</strong><div class="muted">{{ r.company_name }}</div></td>
+                <td><div class="score"><strong>{{ r.match_percentage }}%</strong>
+                    <div class="bar {{ 'high' if r.match_percentage >= 70 else ('low' if r.match_percentage < 35) }}"><span style="width: {{ r.match_percentage }}%"></span></div></div></td>
+                <td><div class="chips">{% for s in r.matched_required %}<span class="chip ok">{{ s }}</span>{% else %}<span class="muted">—</span>{% endfor %}</div></td>
+                <td><div class="chips">{% for s in r.matched_preferred %}<span class="chip pref">{{ s }}</span>{% else %}<span class="muted">—</span>{% endfor %}</div></td>
+                <td><div class="chips">{% for s in r.missing_required %}<span class="chip miss">{{ s }}</span>{% else %}<span class="muted">None</span>{% endfor %}</div></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% elif searched %}
+<div class="card empty"><h3>No jobs to compare</h3>
+    <p>None of your open jobs list required or preferred skills yet. Edit a job and add its skills.</p>
+    <a class="btn" href="{{ url_for('jobs') }}">Go to jobs</a></div>
+{% endif %}
 {% endblock %}

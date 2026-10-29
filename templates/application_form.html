@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if editing else 'Add' }} Application{% endblock %}
+{% block content %}
+<div class="page-head"><h2>{{ 'Edit application' if editing else 'Add application' }}</h2></div>
+{% if not jobs %}
+<div class="card empty"><h3>Add a job first</h3><p>Applications are linked to a job.</p>
+    <a class="btn" href="{{ url_for('add_job') }}">+ Add job</a></div>
+{% else %}
+<form class="card form" method="POST" novalidate>
+    <div class="field"><label for="job_id">Job</label>
+        <select id="job_id" name="job_id" required>
+            <option value="">Select a job</option>
+            {% for j in jobs %}<option value="{{ j.job_id }}" {{ 'selected' if j.job_id == application.job_id }}>{{ j.job_title }} — {{ j.company_name }}</option>{% endfor %}
+        </select></div>
+    <div class="field-row">
+        <div class="field"><label for="application_date">Application date</label>
+            <input type="date" id="application_date" name="application_date" value="{{ application.application_date or '' }}" required></div>
+        <div class="field"><label for="status">Status</label>
+            <select id="status" name="status">
+                {% for s in statuses %}<option {{ 'selected' if s == application.status }}>{{ s }}</option>{% endfor %}
+            </select></div>
+    </div>
+    <div class="field-row">
+        <div class="field"><label for="response_date">Response date <span class="opt">(optional)</span></label>
+            <input type="date" id="response_date" name="response_date" value="{{ application.response_date or '' }}"></div>
+        <div class="field"><label for="resume_version">Resume version <span class="opt">(optional)</span></label>
+            <input type="text" id="resume_version" name="resume_version" value="{{ application.resume_version or '' }}" maxlength="50" placeholder="e.g. v2-backend"></div>
+    </div>
+    <div class="field"><label class="check"><input type="checkbox" name="cover_letter_sent" {{ 'checked' if application.cover_letter_sent }}> Cover letter sent</label></div>
+    <div class="field"><label for="notes">Notes <span class="opt">(optional)</span></label>
+        <textarea id="notes" name="notes">{{ application.notes or '' }}</textarea></div>
+    <div class="form-actions">
+        <button type="submit">{{ 'Save changes' if editing else 'Add application' }}</button>
+        <a class="btn secondary" href="{{ url_for('applications') }}">Cancel</a>
+    </div>
+</form>
+{% endif %}
+{% endblock %}
